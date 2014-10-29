@@ -3,12 +3,14 @@ package servidor;
 import java.io.IOException;
 
 import core.Fase;
+import core.Posicao;
 
-public class Servidor {
+public class Servidor implements Runnable{
 
 	private Cliente mario, luigi;
 	private Fase fase;
 	private NetServidor netServidor;
+	private boolean fim = false;
 	
 	public Servidor() throws IOException {
 		this.netServidor = new NetServidor(this);
@@ -19,6 +21,7 @@ public class Servidor {
 		this.mario = this.netServidor.getCliente();
 		this.luigi = this.netServidor.getCliente();
 		
+		// inicia recepcao
 		this.mario.getNetClient().start();
 		this.luigi.getNetClient().start();
 		
@@ -29,11 +32,33 @@ public class Servidor {
 		this.luigi.getNetClient().envia(-2);
 		this.luigi.setId(-2);
 		
-		// valida a posicao inicial
-		this.mover(this.mario);
-		this.mover(this.luigi);
+		// definine uma posicao inicial
+		this.mario.setPosicao(new Posicao(20, 20));
+		this.luigi.setPosicao(new Posicao(30, 20));
 		
-		this.mario.enviarPosicao();
+		new Thread(this).start();
+	}
+	
+	public void run(){
+		while (!fim){
+			try {
+				Thread.sleep(600);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			// valida a posicao inicial
+			this.mover(this.mario);
+			this.mover(this.luigi);
+			
+			// entrega a posicao para os clientes
+			this.mario.enviarPosicao();
+			this.mario.enviarPosicao(this.luigi);
+			
+			this.luigi.enviarPosicao();
+			this.luigi.enviarPosicao(this.mario);
+		}
 	}
 	
 	public void mover(Cliente c){
@@ -43,6 +68,7 @@ public class Servidor {
 	public void fim(){
 		this.mario.fim();
 		this.luigi.fim();
+		fim  = true;
 	}
 	
 	@Override

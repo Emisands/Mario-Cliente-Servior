@@ -62,19 +62,11 @@ public class NetCliente implements Runnable {
 	 * 
 	 * @param c
 	 */
-	public void envia(int c) {
-		try {
-			socket.getOutputStream().write(c);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void envia(Integer c) {
+		LOGGER.info("Server enviando " + c);
+		os.print(c);
 	}
 	
-	public void envia(Object p){
-		os.print(p);
-	}
-
 	public void start() {
 		thread.start();
 	}

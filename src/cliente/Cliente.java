@@ -23,8 +23,6 @@ public class Cliente {
 		
 		this.janela = new Janela(this, fase);
 		this.janela.setVisible(true);
-		
-		this.concecta.start();
 	}
 	
 	// geter e setter

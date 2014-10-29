@@ -34,7 +34,9 @@ public class Painel extends JPanel {
 		super.paint(g);
 		
 		if (fase != null && cliente != null && cliente.getMario() != null && cliente.getLuigi() != null) {
-			g.drawImage(fase.getMarioImg(), cliente.getMario().getPosicao().getX(), cliente
+			g.drawImage(fase.getBackground(), 0,0, this);
+			
+			g.drawImage(fase.getMarioDirImg(), cliente.getMario().getPosicao().getX(), cliente
 					.getMario().getPosicao().getY(), this);
 		}
 	}
