@@ -19,6 +19,9 @@ public class Servidor {
 		this.mario = this.netServidor.getCliente();
 		this.luigi = this.netServidor.getCliente();
 		
+		this.mario.getNetClient().start();
+		this.luigi.getNetClient().start();
+		
 		// envia dizendo qual e qual
 		this.mario.getNetClient().envia(-1);
 		this.mario.setId(-1);

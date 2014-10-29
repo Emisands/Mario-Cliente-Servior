@@ -28,8 +28,6 @@ public class Painel extends JPanel {
 		
 		this.cliente = cliente;
 		this.fase = fase;
-		
-		Fase faze = new Fase();
 	}
 
 	public void paint(Graphics g) {
