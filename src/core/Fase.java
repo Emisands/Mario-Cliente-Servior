@@ -21,6 +21,7 @@ public class Fase {
 			background = (ImageIO.read(new File("background.jpg")));
 
 			marioDirImg = (ImageIO.read(new File("Mario_Parado_DIR.png")));
+			/*
 			marioEsqImg = (ImageIO.read(new File("Mario_Parado_ESQ.png")));
 			marioAndandoDireitaImg = (ImageIO.read(new File("Mario_DIR.pgn")));
 			marioAndandoEsquerdaImg = (ImageIO.read(new File("Mario_ESQ.pgn")));
@@ -29,7 +30,7 @@ public class Fase {
 			luigiEsqImg = (ImageIO.read(new File("Luigi_Parado_ESQ.png")));
 			luigiAndandoDireitaImg = (ImageIO.read(new File("Luigi_DIR.pgn")));
 			luigiAndandoEsquerdaImg = (ImageIO.read(new File("Luigi_ESQ.pgn")));
-
+			*/
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw e;

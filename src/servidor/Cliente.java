@@ -52,6 +52,14 @@ public class Cliente {
 
 	public void enviarPosicao() {
 		this.netClient.envia(this.id);
+		this.netClient.envia(this.posicao.getX());
+		this.netClient.envia(this.posicao.getY());
+	}
+	
+	public void enviarPosicao(Cliente c) {
+		this.netClient.envia(c.id);
+		this.netClient.envia(c.posicao.getX());
+		this.netClient.envia(c.posicao.getY());
 	}
 
 }

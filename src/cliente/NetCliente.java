@@ -18,28 +18,39 @@ public class NetCliente implements Runnable {
 	private Thread thread;
 
 	private final static Logger LOGGER = Logger.getLogger(NetCliente.class.getName());
-	
+
 	@Override
 	public void run() {
-		try {
-			int read = socket.getInputStream().read();
-			System.out.println("Recebido " + read + " do servidor");
-			switch (read) {
-			case -1: // mario
-				cliente.getMario().getPosicao().setX(socket.getInputStream().read());
-				cliente.getMario().getPosicao().setY(socket.getInputStream().read());
-				break;
-			case -2: // luigi
-				cliente.getLuigi().getPosicao().setX(socket.getInputStream().read());
-				cliente.getLuigi().getPosicao().setY(socket.getInputStream().read());
-				break;
-			case -3: // fim
-				cliente.fim();
-				break;
+		boolean fim = false;
+		LOGGER.info("Cliente Aguardando dados");
+		while (true) {
+			System.out.println("Cliente Aguardando dados");
+			System.out.flush();
+			try {
+				int read = is.nextInt();
+				LOGGER.info("Recebido " + read + " do servidor");
+				
+				switch (read) {
+				case -1: // mario
+					cliente.getMario().getPosicao()
+							.setX(socket.getInputStream().read());
+					cliente.getMario().getPosicao()
+							.setY(socket.getInputStream().read());
+					break;
+				case -2: // luigi
+					cliente.getLuigi().getPosicao()
+							.setX(socket.getInputStream().read());
+					cliente.getLuigi().getPosicao()
+							.setY(socket.getInputStream().read());
+					break;
+				case -3: // fim
+					cliente.fim();
+					fim = true;
+					break;
+				}
+			} catch (IOException e) {
+				System.exit(1);
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 
@@ -55,17 +66,20 @@ public class NetCliente implements Runnable {
 		} catch (IOException e) {
 			System.err.println("Couldn't get I/O for the connection to host");
 		}
-		System.out.println("Conectado com o host");
-		
+		LOGGER.info("Conectado com o host");
+
 		thread = new Thread(this);
 		thread.setDaemon(true);
-		}
+		
+		thread.start();
+	}
 
 	/**
 	 * caso o objeto seja destruido, finaliza a conecxao
 	 */
 	@Override
 	protected void finalize() throws Throwable {
+		LOGGER.info("NetCliente finalizando");
 		try {
 			os.close();
 			is.close();
@@ -80,20 +94,12 @@ public class NetCliente implements Runnable {
 
 	/**
 	 * Envia comandos para o servidor
+	 * 
 	 * @param c
 	 */
 	public void envia(Comando c) {
 		LOGGER.info("Eviando " + c.toString());
-		try {
-			socket.getOutputStream().write(c.ordinal());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	public void start() {
-		thread.start();
+		os.print(c);
 	}
 
 }
