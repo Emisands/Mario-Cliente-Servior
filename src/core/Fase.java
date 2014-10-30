@@ -22,15 +22,17 @@ public class Fase {
 
 			marioDirImg = (ImageIO.read(new File("Mario_Parado_DIR.png")));
 			/*
-			marioEsqImg = (ImageIO.read(new File("Mario_Parado_ESQ.png")));
-			marioAndandoDireitaImg = (ImageIO.read(new File("Mario_DIR.pgn")));
-			marioAndandoEsquerdaImg = (ImageIO.read(new File("Mario_ESQ.pgn")));
-
-			luigiDirImg = (ImageIO.read(new File("Luigi_Parado_DIR.png")));
-			luigiEsqImg = (ImageIO.read(new File("Luigi_Parado_ESQ.png")));
-			luigiAndandoDireitaImg = (ImageIO.read(new File("Luigi_DIR.pgn")));
-			luigiAndandoEsquerdaImg = (ImageIO.read(new File("Luigi_ESQ.pgn")));
-			*/
+			 * marioEsqImg = (ImageIO.read(new File("Mario_Parado_ESQ.png")));
+			 * marioAndandoDireitaImg = (ImageIO.read(new
+			 * File("Mario_DIR.pgn"))); marioAndandoEsquerdaImg =
+			 * (ImageIO.read(new File("Mario_ESQ.pgn")));
+			 * 
+			 * luigiDirImg = (ImageIO.read(new File("Luigi_Parado_DIR.png")));
+			 * luigiEsqImg = (ImageIO.read(new File("Luigi_Parado_ESQ.png")));
+			 * luigiAndandoDireitaImg = (ImageIO.read(new
+			 * File("Luigi_DIR.pgn"))); luigiAndandoEsquerdaImg =
+			 * (ImageIO.read(new File("Luigi_ESQ.pgn")));
+			 */
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw e;
@@ -45,7 +47,7 @@ public class Fase {
 	 */
 	public Posicao atualizaPos(Cliente c) {
 		// TODO Auto-generated method stub
-		return c.getPosicao();
+		return new Posicao(c.getPosicao().getX() + 1, c.getPosicao().getY() + 1);
 	}
 
 	public Image getBackground() {

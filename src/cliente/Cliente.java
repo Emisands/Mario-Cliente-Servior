@@ -1,6 +1,7 @@
 package cliente;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import core.Comando;
 import core.Fase;
@@ -11,6 +12,9 @@ public class Cliente {
 	private Fase fase;
 	private NetCliente concecta;
 	private Janela janela;
+	private int oldHash;
+	
+	private final static Logger LOGGER = Logger.getLogger(Cliente.class.getName());
 	
 	// constrututor
 	
@@ -23,6 +27,8 @@ public class Cliente {
 		
 		this.janela = new Janela(this, fase);
 		this.janela.setVisible(true);
+		
+		this.oldHash = this.hashCode();
 	}
 	
 	// geter e setter
@@ -82,6 +88,59 @@ public class Cliente {
 	protected void finalize() throws Throwable {
 		super.finalize();
 		System.out.println("Cliente finalizado");
+	}
+
+	@Override
+	public String toString() {
+		return "Cliente [mario=" + mario + ", luigi=" + luigi + ", ipServidor="
+				+ ipServidor + "]";
+	}
+
+	public void update() {
+		if (this.oldHash != this.hashCode()){
+			LOGGER.info("Cliente desatualizado, invalidando janela");
+			if (this.janela != null){
+				this.janela.repaint();
+			}
+			this.oldHash = this.hashCode();
+		}
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((janela == null) ? 0 : janela.hashCode());
+		result = prime * result + ((luigi == null) ? 0 : luigi.hashCode());
+		result = prime * result + ((mario == null) ? 0 : mario.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Cliente other = (Cliente) obj;
+		if (janela == null) {
+			if (other.janela != null)
+				return false;
+		} else if (!janela.equals(other.janela))
+			return false;
+		if (luigi == null) {
+			if (other.luigi != null)
+				return false;
+		} else if (!luigi.equals(other.luigi))
+			return false;
+		if (mario == null) {
+			if (other.mario != null)
+				return false;
+		} else if (!mario.equals(other.mario))
+			return false;
+		return true;
 	}
 }
 

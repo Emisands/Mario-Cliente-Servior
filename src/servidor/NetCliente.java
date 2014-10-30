@@ -7,6 +7,8 @@ import java.net.UnknownHostException;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
+import core.Comando;
+
 public class NetCliente implements Runnable {
 
 	private Socket socket;
@@ -21,7 +23,9 @@ public class NetCliente implements Runnable {
 		while (true){
 			int recived;
 			recived = is.nextInt();
-			LOGGER.info("Recebido " + recived);
+			Comando[] comandos = Comando.values();
+			Comando c = comandos[recived];
+			LOGGER.info("Recebido " + c.toString());
 		}
 	}
 
@@ -38,6 +42,7 @@ public class NetCliente implements Runnable {
 		
 		thread = new Thread(this);
 		thread.setDaemon(true);
+		thread.start();
 		}
 
 	/**
@@ -64,11 +69,7 @@ public class NetCliente implements Runnable {
 	 */
 	public void envia(Integer c) {
 		LOGGER.info("Server enviando " + c);
-		os.print(c);
-	}
-	
-	public void start() {
-		thread.start();
+		os.println(c.intValue());
 	}
 
 }

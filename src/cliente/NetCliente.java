@@ -12,45 +12,45 @@ import core.Comando;
 public class NetCliente implements Runnable {
 
 	private Socket socket;
+
 	private PrintStream os;
 	private Scanner is;
+
 	private Cliente cliente;
 	private Thread thread;
 
-	private final static Logger LOGGER = Logger.getLogger(NetCliente.class.getName());
+	private final static Logger LOGGER = Logger.getLogger(NetCliente.class
+			.getName());
 
 	@Override
 	public void run() {
 		boolean fim = false;
+		
 		LOGGER.info("Cliente Aguardando dados");
-		while (true) {
+		while (!fim) {
 			System.out.println("Cliente Aguardando dados");
 			System.out.flush();
-			try {
-				int read = is.nextInt();
-				LOGGER.info("Recebido " + read + " do servidor");
-				
-				switch (read) {
-				case -1: // mario
-					cliente.getMario().getPosicao()
-							.setX(socket.getInputStream().read());
-					cliente.getMario().getPosicao()
-							.setY(socket.getInputStream().read());
-					break;
-				case -2: // luigi
-					cliente.getLuigi().getPosicao()
-							.setX(socket.getInputStream().read());
-					cliente.getLuigi().getPosicao()
-							.setY(socket.getInputStream().read());
-					break;
-				case -3: // fim
-					cliente.fim();
-					fim = true;
-					break;
-				}
-			} catch (IOException e) {
-				System.exit(1);
+			int read = is.nextInt();
+			LOGGER.info("Recebido " + read + " do servidor");
+
+			switch (read) {
+			case -1: // mario
+				cliente.getMario().getPosicao().setX(is.nextInt());
+				cliente.getMario().getPosicao().setY(is.nextInt());
+				break;
+			case -2: // luigi
+				cliente.getLuigi().getPosicao().setX(is.nextInt());
+				cliente.getLuigi().getPosicao().setY(is.nextInt());
+				break;
+			case -3: // fim
+				cliente.fim();
+				fim = true;
+				break;
+			default:
+				LOGGER.info("Valor inesperado, ignorando");
 			}
+			LOGGER.info("Cliente Autlaizado:\t" + cliente.toString() );
+			cliente.update();
 		}
 	}
 
@@ -70,7 +70,7 @@ public class NetCliente implements Runnable {
 
 		thread = new Thread(this);
 		thread.setDaemon(true);
-		
+
 		thread.start();
 	}
 
@@ -99,7 +99,7 @@ public class NetCliente implements Runnable {
 	 */
 	public void envia(Comando c) {
 		LOGGER.info("Eviando " + c.toString());
-		os.print(c);
+		os.println(c.ordinal());
 	}
 
 }

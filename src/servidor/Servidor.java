@@ -20,11 +20,7 @@ public class Servidor implements Runnable{
 		// incia a conexao
 		this.mario = this.netServidor.getCliente();
 		this.luigi = this.netServidor.getCliente();
-		
-		// inicia recepcao
-		this.mario.getNetClient().start();
-		this.luigi.getNetClient().start();
-		
+				
 		// envia dizendo qual e qual
 		this.mario.getNetClient().envia(-1);
 		this.mario.setId(-1);
