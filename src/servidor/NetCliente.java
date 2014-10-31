@@ -15,6 +15,7 @@ public class NetCliente implements Runnable {
 	private PrintStream os;
 	private Scanner is;
 	private Thread thread;
+	private Cliente cliente;
 
 	private final static Logger LOGGER = Logger.getLogger(NetCliente.class.getName());
 	
@@ -26,11 +27,13 @@ public class NetCliente implements Runnable {
 			Comando[] comandos = Comando.values();
 			Comando c = comandos[recived];
 			LOGGER.info("Recebido " + c.toString());
+			cliente.getNetServidor().getServidor().getFase().interpretaComando(c, cliente);
 		}
 	}
 
-	public NetCliente(Socket socket) {
+	public NetCliente(Socket socket, Cliente cliente) {
 		this.socket = socket;
+		this.cliente = cliente;
 		try {
 			os = new PrintStream(socket.getOutputStream(), true);
 			is = new Scanner(socket.getInputStream());

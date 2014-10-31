@@ -54,7 +54,7 @@ public class NetCliente implements Runnable {
 		}
 	}
 
-	public NetCliente(String ip, Cliente cliente) {
+	public NetCliente(String ip, Cliente cliente) throws IOException {
 		// conecta com o servidor
 		this.cliente = cliente;
 		try {
@@ -62,9 +62,11 @@ public class NetCliente implements Runnable {
 			os = new PrintStream(socket.getOutputStream(), true);
 			is = new Scanner(socket.getInputStream());
 		} catch (UnknownHostException e) {
-			System.err.println("Don't know about host.");
+			LOGGER.severe("Don't know about host.");
+			throw e;
 		} catch (IOException e) {
-			System.err.println("Couldn't get I/O for the connection to host");
+			LOGGER.severe("Couldn't get I/O for the connection to host");
+			throw e;
 		}
 		LOGGER.info("Conectado com o host");
 

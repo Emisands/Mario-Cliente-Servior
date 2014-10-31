@@ -13,6 +13,9 @@ public class Main {
 	
 	public Main() {
 		new Thread(new s()).start();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {}
 		new Thread(new c1()).start();
 		new Thread(new c2()).start();
 	}
