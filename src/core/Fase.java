@@ -17,7 +17,7 @@ public class Fase {
 	private Image luigiDirImg, luigiEsqImg, luigiAndandoDireitaImg,
 			luigiAndandoEsquerdaImg;
 
-	static final int CHAO_Y = 427, PAREDE_ESQ = 0, PAREDE_DIR = 800;
+	static final int CHAO_Y = 408, PAREDE_ESQ = 0, PAREDE_DIR = 778;
 
 	public Fase() throws IOException {
 		try {
@@ -25,9 +25,9 @@ public class Fase {
 
 			marioDirImg = (ImageIO.read(new File("Mario_Parado_DIR.png")));
 
-			luigiDirImg = (ImageIO.read(new File("Luigi_Parado_DIR.png")));
+			luigiDirImg = (ImageIO.read(new File("Luigi_Parado_ESQ.png")));
 			/*
-			 * marioEsqImg = (ImageIO.read(new File("Mario_Parado_ESQ.png")));
+			marioEsqImg = (ImageIO.read(new File("Mario_Parado_ESQ.png")));
 			 * marioAndandoDireitaImg = (ImageIO.read(new
 			 * File("Mario_DIR.pgn"))); marioAndandoEsquerdaImg =
 			 * (ImageIO.read(new File("Mario_ESQ.pgn")));
@@ -59,13 +59,13 @@ public class Fase {
 	private void fisica(Cliente cliente, Servidor servidor) {
 		int x, y, dx, dy;
 		x = cliente.getPosicao().getX();
-		y = cliente.getPosicao().getX();
+		y = cliente.getPosicao().getY();
 		dx = cliente.getPosicao().getDx();
 		dy = cliente.getPosicao().getDy();
 
 		// de velocidade para posicao
 		x += dx;
-		y += dy;
+		//y += dy;
 
 		// velocidade
 		if (dx != 0){
@@ -76,10 +76,11 @@ public class Fase {
 		}
 
 		// gravidade
-		dy += 1;
-		if (dy == 0){
+		dy += 20;
+		if (dy <= 0 ){
 			dy = 1;
 		}
+		
 		
 		cliente.getPosicao().setX(x);
 		cliente.getPosicao().setY(y);
@@ -88,19 +89,27 @@ public class Fase {
 	}
 
 	private void colisao(Cliente cliente, Servidor servidor){
-		int x, y, h, l;
+		int x, y, h = 40, l;
 		x = cliente.getPosicao().getX();
 		y = cliente.getPosicao().getY();
 		h = cliente.getPosicao().getH();
 		l = cliente.getPosicao().getL();
 		
 		// nao passa do chao
-		if (y + h < CHAO_Y){
-			y = CHAO_Y;
+		
+		if (y > CHAO_Y) {
+			y = 408;
+		}
+		
+		if (y < 408) {
+			y+=10;
+		}
+		if (y < 358) {
+			y = 358;
 		}
 		
 		// nao passa das paredes
-		if (x + l> PAREDE_DIR){
+		if (x > PAREDE_DIR){
 			x = PAREDE_DIR;
 		}
 		if (x < PAREDE_ESQ){
@@ -117,13 +126,15 @@ public class Fase {
 	public void interpretaComando(Comando comando, Cliente cliente) {
 		switch (comando) {
 		case DIREITA:
-			cliente.getPosicao().setX(cliente.getPosicao().getX() + 10);
+			cliente.getPosicao().setX(cliente.getPosicao().getX() + 6);
 			break;
 		case ESQUERDA:
-			cliente.getPosicao().setX(cliente.getPosicao().getX() - 10);
+			cliente.getPosicao().setX(cliente.getPosicao().getX() - 6);
 			break;
 		case PULA:
-			cliente.getPosicao().setY(cliente.getPosicao().getY() + 50);
+			for (int i = 0; i < 5; i++) {
+			cliente.getPosicao().setY(cliente.getPosicao().getY() - 10);
+			}
 		default:
 			break;
 		}

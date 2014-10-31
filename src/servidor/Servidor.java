@@ -20,11 +20,11 @@ public class Servidor implements Runnable{
 		this.mario = this.netServidor.getCliente();
 		this.luigi = this.netServidor.getCliente();
 		
-		this.mario.getPosicao().setL(16);
-		this.mario.getPosicao().setH(27);
+		this.mario.getPosicao().setL(24);
+		this.mario.getPosicao().setH(40);
 		
-		this.luigi.getPosicao().setL(14);
-		this.luigi.getPosicao().setH(22);
+		this.luigi.getPosicao().setL(27);
+		this.luigi.getPosicao().setH(40);
 				
 		// envia dizendo qual e qual
 		this.mario.getNetClient().envia(-1);
@@ -34,8 +34,8 @@ public class Servidor implements Runnable{
 		this.luigi.setId(-2);
 		
 		// definine uma posicao inicial
-		this.mario.setPosicao(new Posicao(20, 20));
-		this.luigi.setPosicao(new Posicao(30, 20));
+		this.mario.setPosicao(new Posicao(20, 408));
+		this.luigi.setPosicao(new Posicao(200, 408));
 		
 		new Thread(this).start();
 	}
@@ -43,7 +43,7 @@ public class Servidor implements Runnable{
 	public void run(){
 		while (!fim){
 			try {
-				Thread.sleep(600);
+				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

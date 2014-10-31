@@ -6,7 +6,7 @@ public class Posicao {
 
 	public Posicao() {
 		this.x = 0;
-		this.y = 0;
+		this.y = 408;
 	}
 
 	public Posicao(int x, int y) {
@@ -14,7 +14,7 @@ public class Posicao {
 	}
 
 	public Posicao(int x, int y, int dx, int dy) {
-		this(x, y, dx, dy, 10, 10);
+		this(x, y, dx, dy, 5, 5);
 	}
 
 	public Posicao(int x, int y, int dx, int dy, int h, int l) {

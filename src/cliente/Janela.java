@@ -43,7 +43,7 @@ public class Janela extends JFrame implements KeyListener {
 	}
 
 	public Janela(Cliente cliente, Fase fase) throws IOException {
-		super("Super Mega Mario");
+		super("Super Mega Mario - TdeProgramacao");
 
 		this.cliente = cliente;
 		this.painel = new Painel(cliente, fase);
