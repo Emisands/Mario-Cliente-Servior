@@ -5,27 +5,32 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 
 import servidor.Cliente;
 import servidor.Servidor;
 
 public class Fase {
 
+	private String StateImgM;
+	private String StateImgL;
 	private Image background;
-	private Image marioDirImg, marioEsqImg, marioAndandoDireitaImg,
-			marioAndandoEsquerdaImg;
-	private Image luigiDirImg, luigiEsqImg, luigiAndandoDireitaImg,
-			luigiAndandoEsquerdaImg;
+	private Image EstrelaFinal;
+	private Image marioDirImg;
+	private Image luigiDirImg;
 
 	static final int CHAO_Y = 408, PAREDE_ESQ = 0, PAREDE_DIR = 778;
 
 	public Fase() throws IOException {
 		try {
+			setStateImgL("Luigi_Parado_ESQ.png");
+			setStateImgM("Mario_Parado_DIR.png");
 			background = (ImageIO.read(new File("background.jpg")));
+			EstrelaFinal = (ImageIO.read(new File("Up.png")));
+			
+			marioDirImg = (ImageIO.read(new File(getStateImgM())));
 
-			marioDirImg = (ImageIO.read(new File("Mario_Parado_DIR.png")));
-
-			luigiDirImg = (ImageIO.read(new File("Luigi_Parado_ESQ.png")));
+			luigiDirImg = (ImageIO.read(new File(getStateImgL())));
 			/*
 			marioEsqImg = (ImageIO.read(new File("Mario_Parado_ESQ.png")));
 			 * marioAndandoDireitaImg = (ImageIO.read(new
@@ -104,37 +109,52 @@ public class Fase {
 		if (y < 408) {
 			y+=10;
 		}
-		if (y < 358) {
-			y = 358;
+		if (y < 340) {
+			y = 340;
 		}
-		
 		// nao passa das paredes
 		if (x > PAREDE_DIR){
 			x = PAREDE_DIR;
 		}
 		if (x < PAREDE_ESQ){
 			x = PAREDE_ESQ;
+		}    
+		
+		//------------- OBJETIVO -----------------
+		if((x > 675 && x < 710) && y < 370 ) {
+			JOptionPane.showMessageDialog(null,"Parabens! Você venceu! Clique em OK para finalizar.","FIM DE JOGO!",JOptionPane.INFORMATION_MESSAGE); 
+			System.exit(0); 
 		}
+		//	-------------------------------------
 	
 		// dois corpos nao ocupam o mesmo espaco
 		
 		
 		cliente.getPosicao().setX(x);
 		cliente.getPosicao().setY(y);
+		
 	}
 
 	public void interpretaComando(Comando comando, Cliente cliente) {
 		switch (comando) {
 		case DIREITA:
-			cliente.getPosicao().setX(cliente.getPosicao().getX() + 6);
+			cliente.getPosicao().setX(cliente.getPosicao().getX() + 5);
+			//setStateImg("");
 			break;
 		case ESQUERDA:
-			cliente.getPosicao().setX(cliente.getPosicao().getX() - 6);
+			cliente.getPosicao().setX(cliente.getPosicao().getX() - 5);
+			//setStateImg("");
 			break;
 		case PULA:
-			for (int i = 0; i < 5; i++) {
-			cliente.getPosicao().setY(cliente.getPosicao().getY() - 10);
-			}
+		//	for (int i = 0; i < 5; i++) {
+			cliente.getPosicao().setY(cliente.getPosicao().getY() - 40);
+		/*	try {  
+				   Thread.sleep(25);  
+				} catch (Exception e) {  
+				   e.printStackTrace();  
+				}  
+			//setStateImg("");
+			} */
 		default:
 			break;
 		}
@@ -148,32 +168,29 @@ public class Fase {
 		return marioDirImg;
 	}
 
-	public Image getMarioEsqImg() {
-		return marioEsqImg;
-	}
-
-	public Image getMarioAndandoDireitaImg() {
-		return marioAndandoDireitaImg;
-	}
-
-	public Image getMarioAndandoEsquerdaImg() {
-		return marioAndandoEsquerdaImg;
-	}
-
 	public Image getLuigiDirImg() {
 		return luigiDirImg;
 	}
 
-	public Image getLuigiEsqImg() {
-		return luigiEsqImg;
+
+	public String getStateImgM() {
+		return StateImgM;
 	}
 
-	public Image getLuigiAndandoDireitaImg() {
-		return luigiAndandoDireitaImg;
+	public void setStateImgM(String stateImgM) {
+		StateImgM = stateImgM;
 	}
 
-	public Image getLuigiAndandoEsquerdaImg() {
-		return luigiAndandoEsquerdaImg;
+	public String getStateImgL() {
+		return StateImgL;
+	}
+
+	public void setStateImgL(String stateImgL) {
+		StateImgL = stateImgL;
+	}
+
+	public Image getEstrelaFinal() {
+		return EstrelaFinal;
 	}
 
 }

@@ -44,6 +44,8 @@ public class Painel extends JPanel {
 			
 			g.drawImage(fase.getLuigiDirImg(), cliente.getLuigi().getPosicao().getX(), cliente
 					.getLuigi().getPosicao().getY(), this);
+			g.drawImage(fase.getEstrelaFinal(), 690, 336, this);
+			
 		}
 	}
 }

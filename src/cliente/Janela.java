@@ -43,7 +43,7 @@ public class Janela extends JFrame implements KeyListener {
 	}
 
 	public Janela(Cliente cliente, Fase fase) throws IOException {
-		super("Super Mega Mario - TdeProgramacao");
+		super("Super Mega Mario");
 
 		this.cliente = cliente;
 		this.painel = new Painel(cliente, fase);
@@ -51,6 +51,7 @@ public class Janela extends JFrame implements KeyListener {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		addKeyListener(this);
 		add(this.painel);
+		setResizable(false);
 		
 		pack();
 	}
