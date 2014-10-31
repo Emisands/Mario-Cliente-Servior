@@ -1,17 +1,20 @@
 package servidor;
 
+import java.net.Socket;
+
 import core.Posicao;
 
 public class Cliente {
 
 	private Posicao posicao;
 	private NetCliente netClient;
-	private Servidor servidor;
+	private NetServidor netServidor;
 	private int id;
 
-	public Cliente(NetCliente netClient, Servidor servidor) {
-		this.netClient = netClient;
-		this.servidor = servidor;
+	public Cliente(Socket socket, NetServidor netServidor) {
+		this.netClient = new NetCliente(socket, this);
+		this.netServidor = netServidor;
+		this.posicao = new Posicao();
 	}
 
 	public void fim() {
@@ -34,14 +37,6 @@ public class Cliente {
 		this.netClient = netClient;
 	}
 
-	public Servidor getServidor() {
-		return servidor;
-	}
-
-	public void setServidor(Servidor servidor) {
-		this.servidor = servidor;
-	}
-
 	public int getId() {
 		return id;
 	}
@@ -55,11 +50,19 @@ public class Cliente {
 		this.netClient.envia(this.posicao.getX());
 		this.netClient.envia(this.posicao.getY());
 	}
-	
+
 	public void enviarPosicao(Cliente c) {
 		this.netClient.envia(c.id);
 		this.netClient.envia(c.posicao.getX());
 		this.netClient.envia(c.posicao.getY());
+	}
+
+	public NetServidor getNetServidor() {
+		return netServidor;
+	}
+
+	public void setNetServidor(NetServidor netServidor) {
+		this.netServidor = netServidor;
 	}
 
 }

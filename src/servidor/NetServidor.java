@@ -5,20 +5,25 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.logging.Logger;
 
 public class NetServidor {
 
 	private ServerSocket serverSocket;
-	private Servidor servidor;
 	private Collection<Socket> clientes;
-
-	public NetServidor(Servidor servidor) {
+	private Servidor servidor;
+	
+	private final static Logger LOGGER = Logger.getLogger(NetServidor.class
+			.getName());
+	
+	public NetServidor(Servidor servidor) throws IOException {
 		this.clientes = new ArrayList<Socket>(2);
+		this.servidor = servidor;
 		try {
 			serverSocket = new ServerSocket(8080);
 		} catch (IOException e) {
-			System.out.println("Could not listen on port: " + 8080 + ", " + e);
-			System.exit(1);
+			LOGGER.severe("Could not listen on port: " + 8080 + ", " + e);
+			throw e;
 		}
 	}
 
@@ -46,7 +51,15 @@ public class NetServidor {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return new Cliente(new NetCliente(accept), this.servidor);
+		return new Cliente(accept, this);
+	}
+
+	public Servidor getServidor() {
+		return servidor;
+	}
+
+	public void setServidor(Servidor servidor) {
+		this.servidor = servidor;
 	}
 
 }

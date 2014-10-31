@@ -12,14 +12,19 @@ public class Servidor implements Runnable{
 	private NetServidor netServidor;
 	private boolean fim = false;
 	
-	public Servidor() throws IOException {
-		this.netServidor = new NetServidor(this);
-		
+	public Servidor() throws IOException {		
 		this.fase = new Fase();
+		this.netServidor = new NetServidor(this);
 		
 		// incia a conexao
 		this.mario = this.netServidor.getCliente();
 		this.luigi = this.netServidor.getCliente();
+		
+		this.mario.getPosicao().setL(16);
+		this.mario.getPosicao().setH(27);
+		
+		this.luigi.getPosicao().setL(14);
+		this.luigi.getPosicao().setH(22);
 				
 		// envia dizendo qual e qual
 		this.mario.getNetClient().envia(-1);
@@ -57,8 +62,8 @@ public class Servidor implements Runnable{
 		}
 	}
 	
-	public void mover(Cliente c){
-		c.setPosicao(fase.atualizaPos(c));
+	public void mover(Cliente cliente){
+		cliente.setPosicao(fase.atualizaPos(cliente, this));
 	}
 	
 	public void fim(){
@@ -71,6 +76,14 @@ public class Servidor implements Runnable{
 	protected void finalize() throws Throwable {
 		super.finalize();
 		System.out.println("Servidor finalizado");
+	}
+
+	public Fase getFase() {
+		return fase;
+	}
+
+	public void setFase(Fase fase) {
+		this.fase = fase;
 	}
 	
 }
